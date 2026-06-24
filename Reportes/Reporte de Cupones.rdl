@@ -1,0 +1,721 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+	<df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+	<AutoRefresh>0</AutoRefresh>
+	<DataSources>
+		<DataSource Name="DataSource1">
+			<ConnectionProperties>
+				<DataProvider>SQL</DataProvider>
+				<ConnectString>Data Source=.;Initial Catalog=TechZone</ConnectString>
+				<IntegratedSecurity>true</IntegratedSecurity>
+			</ConnectionProperties>
+			<rd:SecurityType>Integrated</rd:SecurityType>
+		</DataSource>
+	</DataSources>
+	<DataSets>
+		<DataSet Name="DataSet1">
+			<Query>
+				<DataSourceName>DataSource1</DataSourceName>
+				<CommandText>
+					SELECT
+					c.codigo AS CodigoCupon,
+					td.nombre AS TipoDescuento,
+					c.valor AS Valor,
+					p.idPedido AS Pedido,
+					pc.montoAplicado AS MontoAplicado,
+					c.usosMaximos AS UsosMaximos,
+					c.usosActuales AS UsosActuales,
+					c.fechaInicio AS FechaInicio,
+					c.fechaExpiracion AS FechaExpiracion
+					FROM ventas.Pedido_Cupon pc
+					INNER JOIN ventas.Pedido p
+					ON pc.idPedido = p.idPedido
+					INNER JOIN marketing.Cupon c
+					ON pc.idCupon = c.idCupon
+					INNER JOIN marketing.TipoDescuento td
+					ON c.idTipoDescuento = td.idTipoDescuento
+					ORDER BY
+					c.codigo ASC,
+					pc.montoAplicado DESC;
+				</CommandText>
+			</Query>
+			<Fields>
+				<Field Name="CodigoCupon">
+					<DataField>CodigoCupon</DataField>
+					<rd:TypeName>System.String</rd:TypeName>
+				</Field>
+				<Field Name="TipoDescuento">
+					<DataField>TipoDescuento</DataField>
+					<rd:TypeName>System.String</rd:TypeName>
+				</Field>
+				<Field Name="Valor">
+					<DataField>Valor</DataField>
+					<rd:TypeName>System.Decimal</rd:TypeName>
+				</Field>
+				<Field Name="Pedido">
+					<DataField>Pedido</DataField>
+					<rd:TypeName>System.Int32</rd:TypeName>
+				</Field>
+				<Field Name="MontoAplicado">
+					<DataField>MontoAplicado</DataField>
+					<rd:TypeName>System.Decimal</rd:TypeName>
+				</Field>
+				<Field Name="UsosMaximos">
+					<DataField>UsosMaximos</DataField>
+					<rd:TypeName>System.Int32</rd:TypeName>
+				</Field>
+				<Field Name="UsosActuales">
+					<DataField>UsosActuales</DataField>
+					<rd:TypeName>System.Int32</rd:TypeName>
+				</Field>
+				<Field Name="FechaInicio">
+					<DataField>FechaInicio</DataField>
+					<rd:TypeName>System.DateTime</rd:TypeName>
+				</Field>
+				<Field Name="FechaExpiracion">
+					<DataField>FechaExpiracion</DataField>
+					<rd:TypeName>System.DateTime</rd:TypeName>
+				</Field>
+			</Fields>
+		</DataSet>
+	</DataSets>
+	<ReportSections>
+		<ReportSection>
+			<Body>
+				<ReportItems>
+					<Textbox Name="ReportTitle">
+						<CanGrow>true</CanGrow>
+						<KeepTogether>true</KeepTogether>
+						<Paragraphs>
+							<Paragraph>
+								<TextRuns>
+									<TextRun>
+										<Value>Reporte de Cupones y Descuentos</Value>
+										<Style>
+											<FontFamily>Segoe UI Light</FontFamily>
+											<FontSize>20pt</FontSize>
+											<FontWeight>Bold</FontWeight>
+											<Color>#333333</Color>
+										</Style>
+									</TextRun>
+								</TextRuns>
+								<Style />
+							</Paragraph>
+						</Paragraphs>
+						<Top>0.1in</Top>
+						<Left>0.1in</Left>
+						<Height>0.4in</Height>
+						<Width>10in</Width>
+						<Style>
+							<Border>
+								<Style>None</Style>
+							</Border>
+							<PaddingLeft>2pt</PaddingLeft>
+							<PaddingRight>2pt</PaddingRight>
+							<PaddingTop>2pt</PaddingTop>
+							<PaddingBottom>2pt</PaddingBottom>
+						</Style>
+					</Textbox>
+					<Tablix Name="Tablix1">
+						<TablixBody>
+							<TablixColumns>
+								<TablixColumn>
+									<Width>1.2in</Width>
+								</TablixColumn>
+								<TablixColumn>
+									<Width>1.2in</Width>
+								</TablixColumn>
+								<TablixColumn>
+									<Width>1in</Width>
+								</TablixColumn>
+								<TablixColumn>
+									<Width>1.2in</Width>
+								</TablixColumn>
+								<TablixColumn>
+									<Width>1.2in</Width>
+								</TablixColumn>
+								<TablixColumn>
+									<Width>1in</Width>
+								</TablixColumn>
+								<TablixColumn>
+									<Width>1in</Width>
+								</TablixColumn>
+								<TablixColumn>
+									<Width>1.2in</Width>
+								</TablixColumn>
+								<TablixColumn>
+									<Width>1.2in</Width>
+								</TablixColumn>
+							</TablixColumns>
+							<TablixRows>
+								<TablixRow>
+									<Height>0.3in</Height>
+									<TablixCells>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Header1">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Código Cupón</Value>
+																	<Style>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<BackgroundColor>#2C3E50</BackgroundColor>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Header2">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Tipo Descuento</Value>
+																	<Style>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<BackgroundColor>#2C3E50</BackgroundColor>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Header3">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Valor</Value>
+																	<Style>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<BackgroundColor>#2C3E50</BackgroundColor>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Header4">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Fecha Inicio</Value>
+																	<Style>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<BackgroundColor>#2C3E50</BackgroundColor>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Header5">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Fecha Expiración</Value>
+																	<Style>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<BackgroundColor>#2C3E50</BackgroundColor>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Header6">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Usos Máx.</Value>
+																	<Style>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<BackgroundColor>#2C3E50</BackgroundColor>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Header7">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Usos Act.</Value>
+																	<Style>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<BackgroundColor>#2C3E50</BackgroundColor>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Header8">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Nº Pedido</Value>
+																	<Style>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<BackgroundColor>#2C3E50</BackgroundColor>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Header9">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Monto Aplicado</Value>
+																	<Style>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<BackgroundColor>#2C3E50</BackgroundColor>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+									</TablixCells>
+								</TablixRow>
+								<TablixRow>
+									<Height>0.25in</Height>
+									<TablixCells>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="CodigoCupon">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!CodigoCupon.Value</Value>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Left</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<Border>
+															<Color>#E0E0E0</Color>
+															<Style>Solid</Style>
+														</Border>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="TipoDescuento">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!TipoDescuento.Value</Value>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Left</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<Border>
+															<Color>#E0E0E0</Color>
+															<Style>Solid</Style>
+														</Border>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Valor">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!Valor.Value</Value>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Right</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<Border>
+															<Color>#E0E0E0</Color>
+															<Style>Solid</Style>
+														</Border>
+														<Format>'$'#,0.00</Format>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="FechaInicio">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!FechaInicio.Value</Value>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<Border>
+															<Color>#E0E0E0</Color>
+															<Style>Solid</Style>
+														</Border>
+														<Format>dd/MM/yyyy</Format>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="FechaExpiracion">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!FechaExpiracion.Value</Value>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<Border>
+															<Color>#E0E0E0</Color>
+															<Style>Solid</Style>
+														</Border>
+														<Format>dd/MM/yyyy</Format>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="UsosMaximos">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!UsosMaximos.Value</Value>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<Border>
+															<Color>#E0E0E0</Color>
+															<Style>Solid</Style>
+														</Border>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="UsosActuales">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!UsosActuales.Value</Value>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<Border>
+															<Color>#E0E0E0</Color>
+															<Style>Solid</Style>
+														</Border>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Pedido">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!Pedido.Value</Value>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Center</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<Border>
+															<Color>#E0E0E0</Color>
+															<Style>Solid</Style>
+														</Border>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="MontoAplicado">
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!MontoAplicado.Value</Value>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<TextAlign>Right</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<Style>
+														<Border>
+															<Color>#E0E0E0</Color>
+															<Style>Solid</Style>
+														</Border>
+														<Format>'$'#,0.00</Format>
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+									</TablixCells>
+								</TablixRow>
+							</TablixRows>
+						</TablixBody>
+						<TablixColumnHierarchy>
+							<TablixMembers>
+								<TablixMember />
+								<TablixMember />
+								<TablixMember />
+								<TablixMember />
+								<TablixMember />
+								<TablixMember />
+								<TablixMember />
+								<TablixMember />
+								<TablixMember />
+							</TablixMembers>
+						</TablixColumnHierarchy>
+						<TablixRowHierarchy>
+							<TablixMembers>
+								<TablixMember>
+									<KeepWithGroup>After</KeepWithGroup>
+									<RepeatOnNewPage>true</RepeatOnNewPage>
+								</TablixMember>
+								<TablixMember>
+									<Group Name="Details" />
+								</TablixMember>
+							</TablixMembers>
+						</TablixRowHierarchy>
+						<Top>0.7in</Top>
+						<Left>0.1in</Left>
+						<Height>0.55in</Height>
+						<Width>10.2in</Width>
+					</Tablix>
+				</ReportItems>
+				<Height>1.5in</Height>
+			</Body>
+			<Width>10.5in</Width>
+			<Page>
+				<LeftMargin>0.5in</LeftMargin>
+				<RightMargin>0.5in</RightMargin>
+				<TopMargin>0.5in</TopMargin>
+				<BottomMargin>0.5in</BottomMargin>
+			</Page>
+		</ReportSection>
+	</ReportSections>
+</Report>

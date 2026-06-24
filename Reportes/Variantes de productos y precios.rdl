@@ -1,0 +1,1174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily" xmlns:am="http://schemas.microsoft.com/sqlserver/reporting/authoringmetadata">
+	<am:AuthoringMetadata>
+		<am:CreatedBy>
+			<am:Name>SSDTRS</am:Name>
+			<am:Version>18.6.11822.322</am:Version>
+		</am:CreatedBy>
+		<am:UpdatedBy>
+			<am:Name>SSDTRS</am:Name>
+			<am:Version>18.6.11822.322</am:Version>
+		</am:UpdatedBy>
+		<am:LastModifiedTimestamp>2026-06-19T17:19:16.7300680Z</am:LastModifiedTimestamp>
+	</am:AuthoringMetadata>
+	<df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+	<AutoRefresh>0</AutoRefresh>
+	<DataSources>
+		<DataSource Name="DataSource1">
+			<ConnectionProperties>
+				<DataProvider>SQL</DataProvider>
+				<ConnectString>Data Source=KERNELOS-PC\MSSQLSERVER02;Initial Catalog=TechZone</ConnectString>
+				<IntegratedSecurity>true</IntegratedSecurity>
+			</ConnectionProperties>
+			<rd:SecurityType>Integrated</rd:SecurityType>
+			<rd:DataSourceID>17998334-76f1-4772-ae2f-5c78385e6fee</rd:DataSourceID>
+		</DataSource>
+	</DataSources>
+	<DataSets>
+		<DataSet Name="DataSet1">
+			<Query>
+				<DataSourceName>DataSource1</DataSourceName>
+				<CommandText>
+					SELECT
+					c.nombre AS Categoria,
+					p.nombre AS Producto,
+					p.marca AS Marca,
+					p.peso_kg AS PesoKg,
+					pv.idVariante AS IdVariante,
+					pv.codigoSKU AS SKU,
+					pv.configuracionTexto AS Configuracion,
+					pv.precioActual AS PrecioActual,
+					pv.moneda AS Moneda,
+					CASE
+					WHEN pv.is_active = 1 THEN 'Activo'
+					ELSE 'Inactivo'
+					END AS EstadoVariante
+					FROM catalogo.Producto p
+					INNER JOIN catalogo.Categoria c
+					ON p.idCategoria = c.idCategoria
+					INNER JOIN catalogo.ProductoVariante pv
+					ON p.idProducto = pv.idProducto
+					WHERE
+					p.is_active = 1
+					AND c.is_active = 1
+					ORDER BY
+					c.nombre,
+					p.nombre,
+					pv.precioActual;
+				</CommandText>
+				<rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+			</Query>
+			<Fields>
+				<Field Name="Categoria">
+					<DataField>Categoria</DataField>
+					<rd:TypeName>System.String</rd:TypeName>
+				</Field>
+				<Field Name="Producto">
+					<DataField>Producto</DataField>
+					<rd:TypeName>System.String</rd:TypeName>
+				</Field>
+				<Field Name="Marca">
+					<DataField>Marca</DataField>
+					<rd:TypeName>System.String</rd:TypeName>
+				</Field>
+				<Field Name="PesoKg">
+					<DataField>PesoKg</DataField>
+					<rd:TypeName>System.Decimal</rd:TypeName>
+				</Field>
+				<Field Name="IdVariante">
+					<DataField>IdVariante</DataField>
+					<rd:TypeName>System.Int32</rd:TypeName>
+				</Field>
+				<Field Name="SKU">
+					<DataField>SKU</DataField>
+					<rd:TypeName>System.String</rd:TypeName>
+				</Field>
+				<Field Name="Configuracion">
+					<DataField>Configuracion</DataField>
+					<rd:TypeName>System.String</rd:TypeName>
+				</Field>
+				<Field Name="PrecioActual">
+					<DataField>PrecioActual</DataField>
+					<rd:TypeName>System.Decimal</rd:TypeName>
+				</Field>
+				<Field Name="Moneda">
+					<DataField>Moneda</DataField>
+					<rd:TypeName>System.String</rd:TypeName>
+				</Field>
+				<Field Name="EstadoVariante">
+					<DataField>EstadoVariante</DataField>
+					<rd:TypeName>System.String</rd:TypeName>
+				</Field>
+			</Fields>
+		</DataSet>
+	</DataSets>
+	<ReportSections>
+		<ReportSection>
+			<Body>
+				<ReportItems>
+					<Textbox Name="textbox1">
+						<CanGrow>true</CanGrow>
+						<KeepTogether>true</KeepTogether>
+						<Paragraphs>
+							<Paragraph>
+								<TextRuns>
+									<TextRun>
+										<Value>Variantes de productos y precios</Value>
+										<Style>
+											<FontFamily>Segoe UI Light</FontFamily>
+											<FontSize>24pt</FontSize>
+											<FontWeight>Bold</FontWeight>
+											<Color>MidnightBlue</Color>
+										</Style>
+									</TextRun>
+								</TextRuns>
+								<Style>
+									<TextAlign>Center</TextAlign>
+								</Style>
+							</Paragraph>
+						</Paragraphs>
+						<rd:DefaultName>textbox1</rd:DefaultName>
+						<Height>0.43in</Height>
+						<Width>10.28125in</Width>
+						<Style>
+							<PaddingLeft>2pt</PaddingLeft>
+							<PaddingRight>2pt</PaddingRight>
+							<PaddingTop>2pt</PaddingTop>
+							<PaddingBottom>2pt</PaddingBottom>
+						</Style>
+					</Textbox>
+					<Tablix Name="table1">
+						<TablixBody>
+							<TablixColumns>
+								<TablixColumn>
+									<Width>0.85807in</Width>
+								</TablixColumn>
+								<TablixColumn>
+									<Width>1.28516in</Width>
+								</TablixColumn>
+								<TablixColumn>
+									<Width>1.28516in</Width>
+								</TablixColumn>
+								<TablixColumn>
+									<Width>1.28516in</Width>
+								</TablixColumn>
+								<TablixColumn>
+									<Width>1.28516in</Width>
+								</TablixColumn>
+								<TablixColumn>
+									<Width>1.28516in</Width>
+								</TablixColumn>
+							</TablixColumns>
+							<TablixRows>
+								<TablixRow>
+									<Height>0.22in</Height>
+									<TablixCells>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="textbox6">
+													<CanGrow>true</CanGrow>
+													<KeepTogether>true</KeepTogether>
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Marca</Value>
+																	<Style>
+																		<FontFamily />
+																		<FontSize>11pt</FontSize>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style />
+														</Paragraph>
+													</Paragraphs>
+													<rd:DefaultName>textbox6</rd:DefaultName>
+													<Style>
+														<Border>
+															<Style>Solid</Style>
+														</Border>
+														<TopBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</TopBorder>
+														<BottomBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</BottomBorder>
+														<LeftBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</LeftBorder>
+														<RightBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</RightBorder>
+														<BackgroundColor>MidnightBlue</BackgroundColor>
+														<FontFamily />
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="textbox7">
+													<CanGrow>true</CanGrow>
+													<KeepTogether>true</KeepTogether>
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>SKU</Value>
+																	<Style>
+																		<FontFamily />
+																		<FontSize>11pt</FontSize>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style />
+														</Paragraph>
+													</Paragraphs>
+													<rd:DefaultName>textbox7</rd:DefaultName>
+													<Style>
+														<Border>
+															<Style>Solid</Style>
+														</Border>
+														<TopBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</TopBorder>
+														<BottomBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</BottomBorder>
+														<LeftBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</LeftBorder>
+														<RightBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</RightBorder>
+														<BackgroundColor>MidnightBlue</BackgroundColor>
+														<FontFamily />
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="textbox8">
+													<CanGrow>true</CanGrow>
+													<KeepTogether>true</KeepTogether>
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Configuracion</Value>
+																	<Style>
+																		<FontFamily />
+																		<FontSize>11pt</FontSize>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style />
+														</Paragraph>
+													</Paragraphs>
+													<rd:DefaultName>textbox8</rd:DefaultName>
+													<Style>
+														<Border>
+															<Style>Solid</Style>
+														</Border>
+														<TopBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</TopBorder>
+														<BottomBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</BottomBorder>
+														<LeftBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</LeftBorder>
+														<RightBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</RightBorder>
+														<BackgroundColor>MidnightBlue</BackgroundColor>
+														<FontFamily />
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="textbox9">
+													<CanGrow>true</CanGrow>
+													<KeepTogether>true</KeepTogether>
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Precio Actual</Value>
+																	<Style>
+																		<FontFamily />
+																		<FontSize>11pt</FontSize>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style>
+																<FontFamily />
+																<TextAlign>Right</TextAlign>
+															</Style>
+														</Paragraph>
+													</Paragraphs>
+													<rd:DefaultName>textbox9</rd:DefaultName>
+													<Style>
+														<Border>
+															<Style>Solid</Style>
+														</Border>
+														<TopBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</TopBorder>
+														<BottomBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</BottomBorder>
+														<LeftBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</LeftBorder>
+														<RightBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</RightBorder>
+														<BackgroundColor>MidnightBlue</BackgroundColor>
+														<FontFamily />
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="textbox10">
+													<CanGrow>true</CanGrow>
+													<KeepTogether>true</KeepTogether>
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Moneda</Value>
+																	<Style>
+																		<FontFamily />
+																		<FontSize>11pt</FontSize>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style />
+														</Paragraph>
+													</Paragraphs>
+													<rd:DefaultName>textbox10</rd:DefaultName>
+													<Style>
+														<Border>
+															<Style>Solid</Style>
+														</Border>
+														<TopBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</TopBorder>
+														<BottomBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</BottomBorder>
+														<LeftBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</LeftBorder>
+														<RightBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</RightBorder>
+														<BackgroundColor>MidnightBlue</BackgroundColor>
+														<FontFamily />
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="textbox11">
+													<CanGrow>true</CanGrow>
+													<KeepTogether>true</KeepTogether>
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>Estado Variante</Value>
+																	<Style>
+																		<FontFamily />
+																		<FontSize>11pt</FontSize>
+																		<FontWeight>Bold</FontWeight>
+																		<Color>White</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style />
+														</Paragraph>
+													</Paragraphs>
+													<rd:DefaultName>textbox11</rd:DefaultName>
+													<Style>
+														<Border>
+															<Style>Solid</Style>
+														</Border>
+														<TopBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</TopBorder>
+														<BottomBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</BottomBorder>
+														<LeftBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</LeftBorder>
+														<RightBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</RightBorder>
+														<BackgroundColor>MidnightBlue</BackgroundColor>
+														<FontFamily />
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+									</TablixCells>
+								</TablixRow>
+								<TablixRow>
+									<Height>0.21in</Height>
+									<TablixCells>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Marca">
+													<CanGrow>true</CanGrow>
+													<KeepTogether>true</KeepTogether>
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!Marca.Value</Value>
+																	<Style>
+																		<FontFamily />
+																		<Color>#333333</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style />
+														</Paragraph>
+													</Paragraphs>
+													<rd:DefaultName>Marca</rd:DefaultName>
+													<Style>
+														<Border>
+															<Style>Solid</Style>
+														</Border>
+														<TopBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</TopBorder>
+														<BottomBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</BottomBorder>
+														<LeftBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</LeftBorder>
+														<RightBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</RightBorder>
+														<BackgroundColor>=IIF(RowNumber(Nothing) Mod 2, "White", "Gainsboro")</BackgroundColor>
+														<FontFamily />
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="SKU">
+													<CanGrow>true</CanGrow>
+													<KeepTogether>true</KeepTogether>
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!SKU.Value</Value>
+																	<Style>
+																		<FontFamily />
+																		<Color>#333333</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style />
+														</Paragraph>
+													</Paragraphs>
+													<rd:DefaultName>SKU</rd:DefaultName>
+													<Style>
+														<Border>
+															<Style>Solid</Style>
+														</Border>
+														<TopBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</TopBorder>
+														<BottomBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</BottomBorder>
+														<LeftBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</LeftBorder>
+														<RightBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</RightBorder>
+														<BackgroundColor>=IIF(RowNumber(Nothing) Mod 2, "White", "Gainsboro")</BackgroundColor>
+														<FontFamily />
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Configuracion">
+													<CanGrow>true</CanGrow>
+													<KeepTogether>true</KeepTogether>
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!Configuracion.Value</Value>
+																	<Style>
+																		<FontFamily />
+																		<Color>#333333</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style />
+														</Paragraph>
+													</Paragraphs>
+													<rd:DefaultName>Configuracion</rd:DefaultName>
+													<Style>
+														<Border>
+															<Style>Solid</Style>
+														</Border>
+														<TopBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</TopBorder>
+														<BottomBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</BottomBorder>
+														<LeftBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</LeftBorder>
+														<RightBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</RightBorder>
+														<BackgroundColor>=IIF(RowNumber(Nothing) Mod 2, "White", "Gainsboro")</BackgroundColor>
+														<FontFamily />
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="PrecioActual">
+													<CanGrow>true</CanGrow>
+													<KeepTogether>true</KeepTogether>
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!PrecioActual.Value</Value>
+																	<Style>
+																		<FontFamily />
+																		<Color>#333333</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style />
+														</Paragraph>
+													</Paragraphs>
+													<rd:DefaultName>PrecioActual</rd:DefaultName>
+													<Style>
+														<Border>
+															<Style>Solid</Style>
+														</Border>
+														<TopBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</TopBorder>
+														<BottomBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</BottomBorder>
+														<LeftBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</LeftBorder>
+														<RightBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</RightBorder>
+														<BackgroundColor>=IIF(RowNumber(Nothing) Mod 2, "White", "Gainsboro")</BackgroundColor>
+														<FontFamily />
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="Moneda">
+													<CanGrow>true</CanGrow>
+													<KeepTogether>true</KeepTogether>
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!Moneda.Value</Value>
+																	<Style>
+																		<FontFamily />
+																		<Color>#333333</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style />
+														</Paragraph>
+													</Paragraphs>
+													<rd:DefaultName>Moneda</rd:DefaultName>
+													<Style>
+														<Border>
+															<Style>Solid</Style>
+														</Border>
+														<TopBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</TopBorder>
+														<BottomBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</BottomBorder>
+														<LeftBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</LeftBorder>
+														<RightBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</RightBorder>
+														<BackgroundColor>=IIF(RowNumber(Nothing) Mod 2, "White", "Gainsboro")</BackgroundColor>
+														<FontFamily />
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+										<TablixCell>
+											<CellContents>
+												<Textbox Name="EstadoVariante">
+													<CanGrow>true</CanGrow>
+													<KeepTogether>true</KeepTogether>
+													<Paragraphs>
+														<Paragraph>
+															<TextRuns>
+																<TextRun>
+																	<Value>=Fields!EstadoVariante.Value</Value>
+																	<Style>
+																		<FontFamily />
+																		<Color>#333333</Color>
+																	</Style>
+																</TextRun>
+															</TextRuns>
+															<Style />
+														</Paragraph>
+													</Paragraphs>
+													<rd:DefaultName>EstadoVariante</rd:DefaultName>
+													<Style>
+														<Border>
+															<Style>Solid</Style>
+														</Border>
+														<TopBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</TopBorder>
+														<BottomBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</BottomBorder>
+														<LeftBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</LeftBorder>
+														<RightBorder>
+															<Color>Black</Color>
+															<Style>Solid</Style>
+															<Width>1pt</Width>
+														</RightBorder>
+														<BackgroundColor>=IIF(RowNumber(Nothing) Mod 2, "White", "Gainsboro")</BackgroundColor>
+														<FontFamily />
+														<PaddingLeft>2pt</PaddingLeft>
+														<PaddingRight>2pt</PaddingRight>
+														<PaddingTop>2pt</PaddingTop>
+														<PaddingBottom>2pt</PaddingBottom>
+													</Style>
+												</Textbox>
+											</CellContents>
+										</TablixCell>
+									</TablixCells>
+								</TablixRow>
+							</TablixRows>
+						</TablixBody>
+						<TablixColumnHierarchy>
+							<TablixMembers>
+								<TablixMember />
+								<TablixMember />
+								<TablixMember />
+								<TablixMember />
+								<TablixMember />
+								<TablixMember />
+							</TablixMembers>
+						</TablixColumnHierarchy>
+						<TablixRowHierarchy>
+							<TablixMembers>
+								<TablixMember>
+									<TablixHeader>
+										<Size>1in</Size>
+										<CellContents>
+											<Textbox Name="Textbox60">
+												<CanGrow>true</CanGrow>
+												<KeepTogether>true</KeepTogether>
+												<Paragraphs>
+													<Paragraph>
+														<TextRuns>
+															<TextRun>
+																<Value>Categoria</Value>
+																<Style>
+																	<FontFamily />
+																	<FontSize>11pt</FontSize>
+																	<FontWeight>Bold</FontWeight>
+																	<Color>White</Color>
+																</Style>
+															</TextRun>
+														</TextRuns>
+														<Style />
+													</Paragraph>
+												</Paragraphs>
+												<rd:DefaultName>Textbox60</rd:DefaultName>
+												<Style>
+													<Border>
+														<Style>Solid</Style>
+													</Border>
+													<TopBorder>
+														<Color>Black</Color>
+														<Style>Solid</Style>
+														<Width>1pt</Width>
+													</TopBorder>
+													<BottomBorder>
+														<Color>Black</Color>
+														<Style>Solid</Style>
+														<Width>1pt</Width>
+													</BottomBorder>
+													<LeftBorder>
+														<Color>Black</Color>
+														<Style>Solid</Style>
+														<Width>1pt</Width>
+													</LeftBorder>
+													<RightBorder>
+														<Color>Black</Color>
+														<Style>Solid</Style>
+														<Width>1pt</Width>
+													</RightBorder>
+													<BackgroundColor>MidnightBlue</BackgroundColor>
+													<PaddingLeft>2pt</PaddingLeft>
+													<PaddingRight>2pt</PaddingRight>
+													<PaddingTop>2pt</PaddingTop>
+													<PaddingBottom>2pt</PaddingBottom>
+												</Style>
+											</Textbox>
+										</CellContents>
+									</TablixHeader>
+									<TablixMembers>
+										<TablixMember>
+											<TablixHeader>
+												<Size>1in</Size>
+												<CellContents>
+													<Textbox Name="Textbox56">
+														<CanGrow>true</CanGrow>
+														<KeepTogether>true</KeepTogether>
+														<Paragraphs>
+															<Paragraph>
+																<TextRuns>
+																	<TextRun>
+																		<Value>Producto</Value>
+																		<Style>
+																			<FontFamily />
+																			<FontSize>11pt</FontSize>
+																			<FontWeight>Bold</FontWeight>
+																			<Color>White</Color>
+																		</Style>
+																	</TextRun>
+																</TextRuns>
+																<Style />
+															</Paragraph>
+														</Paragraphs>
+														<rd:DefaultName>Textbox56</rd:DefaultName>
+														<Style>
+															<Border>
+																<Style>Solid</Style>
+															</Border>
+															<TopBorder>
+																<Color>Black</Color>
+																<Style>Solid</Style>
+																<Width>1pt</Width>
+															</TopBorder>
+															<BottomBorder>
+																<Color>Black</Color>
+																<Style>Solid</Style>
+																<Width>1pt</Width>
+															</BottomBorder>
+															<LeftBorder>
+																<Color>Black</Color>
+																<Style>Solid</Style>
+																<Width>1pt</Width>
+															</LeftBorder>
+															<RightBorder>
+																<Color>Black</Color>
+																<Style>Solid</Style>
+																<Width>1pt</Width>
+															</RightBorder>
+															<BackgroundColor>MidnightBlue</BackgroundColor>
+															<PaddingLeft>2pt</PaddingLeft>
+															<PaddingRight>2pt</PaddingRight>
+															<PaddingTop>2pt</PaddingTop>
+															<PaddingBottom>2pt</PaddingBottom>
+														</Style>
+													</Textbox>
+												</CellContents>
+											</TablixHeader>
+											<TablixMembers>
+												<TablixMember>
+													<KeepTogether>true</KeepTogether>
+												</TablixMember>
+											</TablixMembers>
+										</TablixMember>
+									</TablixMembers>
+									<KeepWithGroup>After</KeepWithGroup>
+									<RepeatOnNewPage>true</RepeatOnNewPage>
+								</TablixMember>
+								<TablixMember>
+									<Group Name="Categoria">
+										<GroupExpressions>
+											<GroupExpression>=Fields!Categoria.Value</GroupExpression>
+										</GroupExpressions>
+									</Group>
+									<SortExpressions>
+										<SortExpression>
+											<Value>=Fields!Categoria.Value</Value>
+										</SortExpression>
+									</SortExpressions>
+									<TablixHeader>
+										<Size>1in</Size>
+										<CellContents>
+											<Textbox Name="Categoria">
+												<CanGrow>true</CanGrow>
+												<KeepTogether>true</KeepTogether>
+												<Paragraphs>
+													<Paragraph>
+														<TextRuns>
+															<TextRun>
+																<Value>=Fields!Categoria.Value</Value>
+																<Style>
+																	<FontFamily />
+																	<FontWeight>Bold</FontWeight>
+																	<Color>#333333</Color>
+																</Style>
+															</TextRun>
+														</TextRuns>
+														<Style>
+															<TextAlign>Center</TextAlign>
+														</Style>
+													</Paragraph>
+												</Paragraphs>
+												<rd:DefaultName>Categoria</rd:DefaultName>
+												<Style>
+													<Border>
+														<Style>None</Style>
+													</Border>
+													<TopBorder>
+														<Color>Black</Color>
+														<Style>Solid</Style>
+														<Width>1pt</Width>
+													</TopBorder>
+													<BottomBorder>
+														<Color>Black</Color>
+														<Style>Solid</Style>
+														<Width>1pt</Width>
+													</BottomBorder>
+													<RightBorder>
+														<Color>Black</Color>
+														<Style>Solid</Style>
+														<Width>1pt</Width>
+													</RightBorder>
+													<BackgroundColor>=IIF(RowNumber(Nothing) Mod 2, "White", "Gainsboro")</BackgroundColor>
+													<VerticalAlign>Middle</VerticalAlign>
+													<PaddingLeft>2pt</PaddingLeft>
+													<PaddingRight>2pt</PaddingRight>
+													<PaddingTop>2pt</PaddingTop>
+													<PaddingBottom>2pt</PaddingBottom>
+												</Style>
+											</Textbox>
+										</CellContents>
+									</TablixHeader>
+									<TablixMembers>
+										<TablixMember>
+											<Group Name="table1_Categoria">
+												<GroupExpressions>
+													<GroupExpression>=Fields!Categoria.Value</GroupExpression>
+												</GroupExpressions>
+											</Group>
+											<SortExpressions>
+												<SortExpression>
+													<Value>=Fields!Categoria.Value</Value>
+												</SortExpression>
+											</SortExpressions>
+											<TablixMembers>
+												<TablixMember>
+													<Group Name="Producto">
+														<GroupExpressions>
+															<GroupExpression>=Fields!Producto.Value</GroupExpression>
+														</GroupExpressions>
+													</Group>
+													<SortExpressions>
+														<SortExpression>
+															<Value>=Fields!Producto.Value</Value>
+														</SortExpression>
+													</SortExpressions>
+													<TablixHeader>
+														<Size>1in</Size>
+														<CellContents>
+															<Textbox Name="Producto">
+																<CanGrow>true</CanGrow>
+																<KeepTogether>true</KeepTogether>
+																<Paragraphs>
+																	<Paragraph>
+																		<TextRuns>
+																			<TextRun>
+																				<Value>=Fields!Producto.Value</Value>
+																				<Style>
+																					<FontFamily />
+																					<Color>#333333</Color>
+																				</Style>
+																			</TextRun>
+																		</TextRuns>
+																		<Style>
+																			<TextAlign>Right</TextAlign>
+																		</Style>
+																	</Paragraph>
+																</Paragraphs>
+																<rd:DefaultName>Producto</rd:DefaultName>
+																<Style>
+																	<Border>
+																		<Style>None</Style>
+																	</Border>
+																	<TopBorder>
+																		<Color>Black</Color>
+																		<Style>Solid</Style>
+																		<Width>1pt</Width>
+																	</TopBorder>
+																	<BottomBorder>
+																		<Color>Black</Color>
+																		<Style>Solid</Style>
+																		<Width>1pt</Width>
+																	</BottomBorder>
+																	<BackgroundColor>=IIF(RowNumber(Nothing) Mod 2, "White", "Gainsboro")</BackgroundColor>
+																	<PaddingLeft>2pt</PaddingLeft>
+																	<PaddingRight>2pt</PaddingRight>
+																	<PaddingTop>2pt</PaddingTop>
+																	<PaddingBottom>2pt</PaddingBottom>
+																</Style>
+															</Textbox>
+														</CellContents>
+													</TablixHeader>
+													<TablixMembers>
+														<TablixMember>
+															<Group Name="table1_Producto">
+																<GroupExpressions>
+																	<GroupExpression>=Fields!Producto.Value</GroupExpression>
+																</GroupExpressions>
+															</Group>
+															<SortExpressions>
+																<SortExpression>
+																	<Value>=Fields!Producto.Value</Value>
+																</SortExpression>
+															</SortExpressions>
+															<TablixMembers>
+																<TablixMember>
+																	<Group Name="table1_Details_Group">
+																		<DataElementName>Detail</DataElementName>
+																	</Group>
+																	<TablixMembers>
+																		<TablixMember />
+																	</TablixMembers>
+																	<DataElementName>Detail_Collection</DataElementName>
+																	<DataElementOutput>Output</DataElementOutput>
+																	<KeepTogether>true</KeepTogether>
+																</TablixMember>
+															</TablixMembers>
+														</TablixMember>
+													</TablixMembers>
+												</TablixMember>
+											</TablixMembers>
+										</TablixMember>
+									</TablixMembers>
+								</TablixMember>
+							</TablixMembers>
+						</TablixRowHierarchy>
+						<DataSetName>DataSet1</DataSetName>
+						<Top>0.43in</Top>
+						<Height>0.43in</Height>
+						<Width>9.28387in</Width>
+						<ZIndex>1</ZIndex>
+						<Style />
+					</Tablix>
+				</ReportItems>
+				<Height>1.28in</Height>
+				<Style />
+			</Body>
+			<Width>10.28125in</Width>
+			<Page>
+				<LeftMargin>1in</LeftMargin>
+				<RightMargin>1in</RightMargin>
+				<TopMargin>1in</TopMargin>
+				<BottomMargin>1in</BottomMargin>
+				<Style />
+			</Page>
+		</ReportSection>
+	</ReportSections>
+	<ReportParametersLayout>
+		<GridLayoutDefinition>
+			<NumberOfColumns>4</NumberOfColumns>
+			<NumberOfRows>2</NumberOfRows>
+		</GridLayoutDefinition>
+	</ReportParametersLayout>
+	<Language>en-US</Language>
+	<ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+	<rd:ReportUnitType>Inch</rd:ReportUnitType>
+	<rd:ReportID>bee7b4d0-bbc5-46ca-97db-7a7ecd828e8e</rd:ReportID>
+</Report>
